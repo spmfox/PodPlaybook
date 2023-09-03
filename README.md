@@ -9,6 +9,7 @@ By default it will create systemd service files and is compatible with or withou
 
 ## Usage
 - ```ansible-playbook host.yml```
+- ```machinectl shell containers@```
 - ```ansible-galaxy install -r collections/requirements.yml```
 - ```ansible-playbook containers.yml -e @docs/sample-environment/wordpress.yml```
 
@@ -32,3 +33,8 @@ A fully working pod with Wordpress and a MariaDB database are in the ```docs/sam
 - Rootless mode is being used, so tasks are written to use systemd user scope
   - Tasks would need to be tweaked for using the root user
 - ```containers``` user is automatically created during the ```host.yml``` play
+
+## Limitations
+- Tasks were written to be run as the unprivileged user - however this is tricky in Ansible
+  - Because of this, I recommend using ```machinectl shell containers@``` to become user before running the ```containers.yml``` play
+  - Your milage may vary if you use another method of changing users
