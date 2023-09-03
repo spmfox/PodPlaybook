@@ -17,6 +17,8 @@ By default it will create systemd service files and is compatible with or withou
 - Declare container architecture using Ansible variables file
 - Rebuild, stop, start, enable systemd service, disable + remove systemd files
 - One command for re-build image, re-generate systemd unit files
+- Optionally, use tags for more precise control
+  - ```container-start```, ```container-stop```, ```generate-systemd```, ```rebuild```, ```remove```, ```service-start```, ```service-stop```
 - Utilizes rootless Podman
 
 ## Sample Environment

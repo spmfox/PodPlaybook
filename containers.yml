@@ -132,7 +132,7 @@
         state: started
         enabled: true
         scope: user
-      tags: start-service
+      tags: service-start
       when: pod is defined
 
     - name: Start systemd container service
@@ -141,7 +141,7 @@
         state: started
         enabled: true
         scope: user
-      tags: start-service
+      tags: service-start
       loop: "{{ containers }}"
 
     - name: Prune old images
