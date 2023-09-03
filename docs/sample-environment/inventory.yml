@@ -1,0 +1,14 @@
+pod:
+  name: wordpress
+  ports:
+    - "8080:80"
+
+containers:
+  - name: wordpress-db
+    path: "docs/sample-environment/wordpress"
+    file: "wordpress-db.containerfile"
+    runlabel: "start"
+  - name: wordpress-app
+    path: "docs/sample-environment/wordpress"
+    file: "wordpress-app.containerfile"
+    runlabel: "start"

@@ -1,0 +1,44 @@
+- hosts: localhost
+  become: true
+
+  tasks:
+    - name: Create containers user
+      ansible.builtin.user:
+        name: containers
+
+    - name: Install systemd-container and podman
+      ansible.builtin.package:
+        name:
+          - systemd-container
+          - podman
+        state: present
+
+    - name: Confirm systemd-linger is set for containers user
+      ansible.builtin.stat:
+        path: "/var/lib/systemd/linger/containers"
+      register: linger
+
+    - name: Set systemd-linger for containers user (if necessary)
+      ansible.builtin.shell: "loginctl enable-linger containers"
+      when: not linger.stat.exists
+
+    - name: Unprivileged port block
+      block:
+        - name: Confirm port 80 and above is allowed for unprivileged use
+          ansible.builtin.shell: "sysctl net.ipv4.ip_unprivileged_port_start |grep 80"
+
+      rescue:
+        - name: Set sysctl parameter net.ipv4.ip_unprivileged_port_start=80
+          ansible.builtin.lineinfile:
+            path: "/etc/sysctl.conf"
+            regexp: "^net.ipv4.ip_unprivileged_port_start=80"
+            line: "net.ipv4.ip_unprivileged_port_start=80"
+
+        - name: Reload sysctl
+          ansible.builtin.shell: "sysctl -p /etc/sysctl.conf"
+
+        - name: Confirm port 80 and above is allowed for unprivileged use
+          ansible.builtin.shell: "sysctl net.ipv4.ip_unprivileged_port_start |grep 80"
+      tags:
+        - never
+        - unprivileged-ports
