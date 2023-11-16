@@ -145,4 +145,4 @@
       loop: "{{ containers }}"
 
     - name: Prune old images
-      ansible.builtin.shell: podman image prune -f
+      ansible.builtin.shell: "podman image prune -f"

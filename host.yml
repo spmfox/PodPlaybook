@@ -4,13 +4,13 @@
   tasks:
     - name: Create containers user
       ansible.builtin.user:
-        name: containers
+        name: "containers"
 
     - name: Install systemd-container and podman
       ansible.builtin.package:
         name:
-          - systemd-container
-          - podman
+          - "systemd-container"
+          - "podman"
         state: present
 
     - name: Confirm systemd-linger is set for containers user
@@ -61,14 +61,14 @@
 
         - name: Create new tmp directory for podman
           ansible.builtin.file:
-            path: /var/containers/tmp
+            path: "/var/containers/tmp"
             owner: containers
             group: containers
             state: directory
 
         - name: Configure podman to use new tmp directory
           ansible.builtin.blockinfile:
-            path: /etc/containers/containers.conf
+            path: "/etc/containers/containers.conf"
             create: true
             block: |
               [engine]
