@@ -1,5 +1,17 @@
 - hosts: localhost
   become: true
+  vars:
+    shell_service_status_helper: |
+      echo "----systemd----"
+      systemctl --user list-units 'pod-*' -q
+      echo ""
+      systemctl --user list-units 'container-*' -q
+      echo ""
+      echo "----podman----"
+      podman pod list --sort status --format={{ '"{{.Status}} {{.Name}}"' }}
+      echo ""
+      podman container list --all --sort status --format={{ '"{{.State}} {{.Status}} {{.Names}}"' }}
+      echo ""
 
   tasks:
     - name: Create containers user
@@ -12,12 +24,7 @@
         owner: "containers"
         group: "containers"
         create: true
-        block: |
-          echo ""
-          systemctl --user list-units 'container-*' -q
-          echo ""
-          podman container list --all
-          echo ""
+        block: "{{ shell_service_status_helper }}"
 
     - name: Check if fish shell is installed
       ansible.builtin.stat:
@@ -30,12 +37,7 @@
          owner: "containers"
          group: "containers"
          create: true
-         block: |
-           echo ""
-           systemctl --user list-units 'container-*' -q
-           echo ""
-           podman container list --all
-           echo ""
+         block: "{{ shell_service_status_helper }}"
       when: fish.stat.exists
 
     - name: Install systemd-container and podman
