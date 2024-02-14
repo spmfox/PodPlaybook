@@ -6,6 +6,38 @@
       ansible.builtin.user:
         name: "containers"
 
+    - name: Add bashrc for container service status on login
+      ansible.builtin.blockinfile:
+        path: "/home/containers/.bashrc"
+        owner: "containers"
+        group: "containers"
+        create: true
+        block: |
+          echo ""
+          systemctl --user list-units 'container-*' -q
+          echo ""
+          podman container list --all
+          echo ""
+
+    - name: Check if fish shell is installed
+      ansible.builtin.stat:
+        path: "/usr/bin/fish"
+      register: fish
+
+    - name: Add fish config for container service status on login
+      ansible.builtin.blockinfile:
+         path: "/home/containers/.config/fish/conf.d/containers.fish"
+         owner: "containers"
+         group: "containers"
+         create: true
+         block: |
+           echo ""
+           systemctl --user list-units 'container-*' -q
+           echo ""
+           podman container list --all
+           echo ""
+      when: fish.stat.exists
+
     - name: Install systemd-container and podman
       ansible.builtin.package:
         name:
