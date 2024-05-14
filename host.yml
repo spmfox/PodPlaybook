@@ -40,6 +40,14 @@
          block: "{{ shell_service_status_helper }}"
       when: fish.stat.exists
 
+    - name: Fix permissions on /home/containers
+      ansible.builtin.file:
+        path: "/home/containers"
+        state: directory
+        owner: "containers"
+        group: "containers"
+        recurse: true
+
     - name: Install systemd-container and podman
       ansible.builtin.package:
         name:
