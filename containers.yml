@@ -76,6 +76,7 @@
       containers.podman.podman_pod:
         name: "{{ pod.name }}"
         ports: "{{ pod.ports }}"
+        network: "{{ pod.network | default(omit) }}"
         state: started
       tags: container-start
       when: pod is defined

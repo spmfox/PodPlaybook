@@ -2,6 +2,7 @@ pod:
   name: wordpress
   ports:
     - "8080:80"
+# network:
 
 containers:
   - name: wordpress-db
