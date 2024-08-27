@@ -1,0 +1,31 @@
+- name: Add bashrc for container service status on login
+  ansible.builtin.blockinfile:
+    path: "/home/{{ host_containers_user }}/.bashrc"
+    owner: "{{ host_containers_user }}"
+    group: "{{ host_containers_user }}"
+    create: true
+    block: "{{ host_shell_login_helper }}"
+
+- name: Check if fish shell is installed
+  ansible.builtin.stat:
+    path: "/usr/bin/fish"
+  register: fish
+
+- name: Block for fish
+  block:
+    - name: Create fish config directory
+      ansible.builtin.file:
+        path: "/home/{{ host_containers_user }}/.config/fish/conf.d"
+        state: directory
+        owner: "{{ host_containers_user }}"
+        group: "{{ host_containers_user }}"
+
+    - name: Add fish config for container service status on login
+      ansible.builtin.blockinfile:
+        path: "/home/{{ host_containers_user }}/.config/fish/conf.d/containers.fish"
+        owner: "{{ host_containers_user }}"
+        group: "{{ host_containers_user }}"
+        create: true
+        block: "{{ host_shell_login_helper }}"
+      when: fish.stat.exists
+  when: fish.stat.exists

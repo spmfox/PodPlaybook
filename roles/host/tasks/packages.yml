@@ -1,0 +1,6 @@
+- name: Install systemd-container and podman
+  ansible.builtin.package:
+    name:
+      - "systemd-container"
+      - "podman"
+    state: present

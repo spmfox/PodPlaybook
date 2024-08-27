@@ -1,0 +1,9 @@
+host_shell_login_helper: |
+  echo "----pods----"
+  podman pod list --sort status --format={{ '"{{.Status}} {{.Name}}"' }}
+  echo ""
+  echo "----containers----"
+  podman container list --all --sort status --format={{ '"{{.State}} {{.Status}} {{.Names}}"' }}
+  echo ""
+
+host_containers_user: "containers"

@@ -1,0 +1,11 @@
+[Unit]
+Wants=check-network-online.service wordpress-app.service wordpress-db.service
+Before=wordpress-app.service wordpress-db.service
+After=check-network-online.service
+
+[Pod]
+PublishPort=8080:80
+PodName=wordpress
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,8 @@
+- name: Confirm systemd-linger is set for containers user
+  ansible.builtin.stat:
+    path: "/var/lib/systemd/linger/{{ host_containers_user }}"
+  register: linger
+
+- name: Set systemd-linger for containers user (if necessary)
+  ansible.builtin.shell: "loginctl enable-linger {{ host_containers_user }}"
+  when: not linger.stat.exists

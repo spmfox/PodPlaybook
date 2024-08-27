@@ -1,0 +1,20 @@
+#This is a workaround so we can check for the network to come up before starting the quadlets
+#https://github.com/containers/podman/issues/22197
+#https://github.com/systemd/systemd/issues/3312
+
+- name: Copy check-network-online.service into systemd user service directory
+  ansible.builtin.copy:
+    src: "check-network-online.service"
+    dest: "/etc/systemd/user/check-network-online.service"
+  register: systemd
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  when: systemd.changed
+
+- name: Enable check-network-online.service for all users
+  ansible.builtin.systemd_service:
+    name: "check-network-online.service"
+    enabled: true
+    scope: "global"

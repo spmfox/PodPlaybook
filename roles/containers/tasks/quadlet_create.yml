@@ -1,0 +1,22 @@
+- name: Create quadlet directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/containers/systemd"
+    state: "directory"
+
+- name: Copy quadlet files into quadlet directory
+  ansible.builtin.copy:
+    src: "{{ quadlet_path}}/{{ item.file }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/containers/systemd/{{ item.file }}"
+  loop_control:
+    label: "{{ item.name }} -> {{ item.file }}"
+  loop: "{{ quadlets }}"
+  register: quadlet_files
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: "user"
+  when: quadlet_files.changed
+
+- name: Check quadlet status
+  ansible.builtin.shell: "/usr/lib/systemd/system-generators/podman-system-generator --user --dryrun"

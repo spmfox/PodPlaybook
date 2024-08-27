@@ -1,0 +1,27 @@
+- name: Start quadlet
+  ansible.builtin.systemd_service:
+    name: "{{ item.name }}"
+    state: "started"
+    scope: "user"
+  loop_control:
+    label: "{{ item.name}}.service"
+  loop: "{{ quadlets }}"
+
+- name: Check for quadlet not in active or activating state
+  ansible.builtin.shell: "systemctl --user is-active {{ item.name }}.service"
+  loop_control:
+    label: "{{ item.name}}.service: {{ quadlet_status.stdout }}"
+  loop: "{{ quadlets }}"
+  register: quadlet_status
+  failed_when: quadlet_status.stdout not in ['active', 'activating']
+
+
+- name: Wait for quadlet state to go active
+  ansible.builtin.shell: "systemctl --user is-active {{ item.name }}.service"
+  loop_control:
+    label: "{{ item.name}}.service: {{ quadlet_status.stdout }}"
+  loop: "{{ quadlets }}"
+  register: quadlet_status
+  until: quadlet_status.stdout == 'active'
+  delay: 2
+  retries: 25

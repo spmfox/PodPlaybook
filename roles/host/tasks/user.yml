@@ -1,0 +1,9 @@
+- name: Create containers user
+  ansible.builtin.user:
+    name: "{{ host_containers_user }}"
+
+- name: Add containers user to systemd-journal group
+  ansible.builtin.user:
+    name: "{{ host_containers_user }}"
+    groups: "systemd-journal"
+    append: true

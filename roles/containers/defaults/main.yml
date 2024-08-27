@@ -1,0 +1,11 @@
+quadlet_path: "../../docs/sample-environment/wordpress/quadlet"
+
+quadlets:
+  - name: "wordpress-pod"
+    file: "wordpress.pod"
+
+  - name: "wordpress-app"
+    file: "wordpress-app.container"
+
+  - name: "wordpress-db"
+    file: "wordpress-db.container"

@@ -4,40 +4,42 @@ Ansible playbook for deploying and managing Podman containers.
 
 ![PodPlaybook](docs/images/logo.png)
 
-This playbook is for deploying and managing Podman containers in a reproducible way.
-By default it will create systemd service files and is compatible with or without the use of pods.
+This repo contains two roles, `host` and `containers`, that automate the deployment of Podman containers using quadlet.
+Quadlet files and some understanding of quadlet and/or systemd is required to use this tool.
 
 ## Usage
-- ```ansible-playbook host.yml```
-- ```machinectl shell containers@```
-- ```ansible-galaxy install -r collections/requirements.yml```
-- ```ansible-playbook containers.yml -e @docs/sample-environment/wordpress.yml```
+    ansible-playbook host.yml
+    sudo machinectl shell containers@
+    ansible-galaxy install -r collections/requirements.yml
+    ansible-playbook containers.yml
 
 ## Features
-- Declare container architecture using Ansible variables file
-- Rebuild, stop, start, enable systemd service, disable + remove systemd files
-- One command for re-build image, re-generate systemd unit files
-- Optionally, use tags for more precise control
-  - ```container-start```, ```container-stop```, ```generate-systemd```, ```rebuild```, ```remove```, ```service-start```, ```service-stop```
-- Utilizes rootless Podman
+- Designed for rootless Podman
+- Easily deploy/remove quadlet files and stop/start quadlet services
+- Define your application's quadlet files so they are treated as one entity with Ansible
 
 ## Sample Environment
-A fully working pod with Wordpress and a MariaDB database are in the ```docs/sample-environment``` directory.
+A fully working pod with Wordpress and a MariaDB database are in the `docs/sample-environment` directory.
+The default variables in the `container` role will use this sample environment for deployment.
+Provide your own inventory and/or variables to override this.
 
 ## Requirements
 - Ansible
-- Ansible collections
-  - ```ansible-galaxy install -r collections/requirements.yml```
+- Ansible collections:
+    - ```ansible-galaxy install -r collections/requirements.yml```
 - Podman
-- User with ```sudo``` rights
+- User with `sudo` rights (to create unprivileged user)
 
-## Assumptions
-- Rootless mode is being used, so tasks are written to use systemd user scope
-  - Tasks would need to be tweaked for using the root user
-- ```containers``` user is automatically created during the ```host.yml``` play
-- The tasks were purposely kept simple, its expected that you use Podman runlabels for most options
+## Operation
+- `host.yml` - installs the needed packages and creates the `containers` unprivileged user - use with a privileged account
+- `containers.yml` - will copy the quadlet files and start the quadlet - use with the unprivileged account
 
-## Limitations
-- Tasks were written to be run as the unprivileged user - however this is tricky in Ansible
-  - Because of this, I recommend using ```machinectl shell containers@``` to become user before running the ```containers.yml``` play
-  - Your milage may vary if you use another method of changing users
+## Tags
+- `host.yml`:
+    - `unprivileged-ports` - configures host to allow port `80` and above to be used by unprivileged accounts
+    - `cpanel-dnsonly` - changes only needed when running on a dnsonly cPanel instance, check `roles/host/tasks/cpanel-dnsonly.yml` for details
+- `containers.yml`:
+    - `create` - create quadlet files
+    - `remove` - remove quadlet files
+    - `start` - start quadlet services
+    - `stop` - stop quadlet services

@@ -1,0 +1,14 @@
+- name: Remove quadlet files from quadlet directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/containers/systemd/{{ item.file }}"
+    state: "absent"
+  loop_control:
+    label: "{{ item.name }} -> {{ item.file }}"
+  loop: "{{ quadlets }}"
+  register: quadlet_files
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: "user"
+  when: quadlet_files.changed

@@ -1,0 +1,17 @@
+- ansible.builtin.import_tasks: quadlet_create.yml
+  tags:
+    - create
+
+- ansible.builtin.import_tasks: quadlet_start.yml
+  tags:
+    - start
+
+- ansible.builtin.import_tasks: quadlet_stop.yml
+  tags:
+    - never
+    - stop
+
+- ansible.builtin.import_tasks: quadlet_remove.yml
+  tags:
+    - never
+    - remove

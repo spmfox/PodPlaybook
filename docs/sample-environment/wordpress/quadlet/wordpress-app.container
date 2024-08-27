@@ -1,0 +1,13 @@
+[Unit]
+Wants=wordpress-pod.service
+After=wordpress-pod.service
+PartOf=wordpress-pod.service
+
+[Container]
+ContainerName=wordpress-app
+Environment=WORDPRESS_DB_HOST=127.0.0.1 WORDPRESS_DB_USER=root WORDPRESS_DB_PASSWORD=TESTTESTTEST WORDPRESS_DB_NAME=wordpress WORDPRESS_TABLE_PREFIX=wp_
+Image=docker.io/library/wordpress:latest
+PodmanArgs=--pod wordpress
+
+[Install]
+WantedBy=default.target

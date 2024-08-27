@@ -1,0 +1,28 @@
+- name: Confirm if cpsrvd is not listening on http ports
+  ansible.builtin.shell: "whmapi1 get_tweaksetting key='disable_cphttpd' |grep 'value: 1' || /bin/true"
+  register: cpsrv_listen
+
+- name: Turn off cpsrvd listening on http ports (if necessary)
+  ansible.builtin.shell: "whmapi1 set_tweaksetting key='disable_cphttpd' value='1' ; /scripts/restartsrv_cpsrvd"
+  when: cpsrv_listen.stdout | length == 0
+
+- name: Turn off firewalld
+  ansible.builtin.service:
+    name: "firewalld"
+    state: stopped
+    enabled: false
+
+- name: Create new tmp directory for podman
+  ansible.builtin.file:
+    path: "/var/containers/tmp"
+    owner: "{{ host_containers_user }}"
+    group: "{{ host_containers_user }}"
+    state: directory
+
+- name: Configure podman to use new tmp directory
+  ansible.builtin.blockinfile:
+    path: "/etc/containers/containers.conf"
+    create: true
+    block: |
+      [engine]
+      env = ["TMPDIR=/var/containers/tmp"]
