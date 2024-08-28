@@ -6,6 +6,8 @@
         name: "localhost"
         ansible_connection: "local"
       when: groups['all'] | length == 0
+      tags:
+        - always
 
 
 - hosts: all
