@@ -10,7 +10,6 @@ Quadlet files and some understanding of quadlet and/or systemd is required to us
 ## Usage
     ansible-playbook host.yml
     sudo machinectl shell containers@
-    ansible-galaxy install -r collections/requirements.yml
     ansible-playbook containers.yml
 
 ## Features
