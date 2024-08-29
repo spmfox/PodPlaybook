@@ -8,10 +8,10 @@
 
 - ansible.builtin.import_tasks: systemd-user-network-check.yml
 
-- ansible.builtin.import_tasks: unprivileged-ports.yml
+- ansible.builtin.import_tasks: unprivileged-port.yml
   tags:
     - never
-    - unprivileged-ports
+    - unprivileged-port
 
 - ansible.builtin.import_tasks: cpanel-dnsonly.yml
   tags:

@@ -35,7 +35,7 @@ Provide your own inventory and/or variables to override this.
 
 ## Tags
 - `host.yml`:
-    - `unprivileged-ports` - configures host to allow port `80` and above to be used by unprivileged accounts
+    - `unprivileged-port` - configures host to allow unprivileged accounts to use privileged ports, defaults to `80`
     - `cpanel-dnsonly` - changes only needed when running on a dnsonly cPanel instance, check `roles/host/tasks/cpanel-dnsonly.yml` for details
 - `containers.yml`:
     - `create` - create quadlet files
