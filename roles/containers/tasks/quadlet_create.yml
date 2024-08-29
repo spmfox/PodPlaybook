@@ -5,11 +5,11 @@
 
 - name: Copy quadlet files into quadlet directory
   ansible.builtin.copy:
-    src: "{{ quadlet_path}}/{{ item.file }}"
+    src: "{{ containers_quadlet_path}}/{{ item.file }}"
     dest: "{{ lookup('env', 'HOME') }}/.config/containers/systemd/{{ item.file }}"
   loop_control:
     label: "{{ item.name }} -> {{ item.file }}"
-  loop: "{{ quadlets }}"
+  loop: "{{ containers_quadlets }}"
   register: quadlet_files
 
 - name: Reload systemd daemon

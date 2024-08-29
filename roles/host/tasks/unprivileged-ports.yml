@@ -1,17 +1,11 @@
-- name: Unprivileged port block
-  block:
-    - name: Confirm port 80 and above is allowed for unprivileged use
-      ansible.builtin.shell: "sysctl net.ipv4.ip_unprivileged_port_start |grep 80"
+- name: Set unprivileged ports sysctl parameter in /etc/sysctl.d/50-UnprivilegedPorts.conf
+  ansible.builtin.lineinfile:
+    path: "/etc/sysctl.d/50-UnprivilegedPorts.conf"
+    regexp: "^net.ipv4.ip_unprivileged_port_start="
+    line: "net.ipv4.ip_unprivileged_port_start={{ host_unprivileged_ports_start }}"
+    create: true
+  register: sysctl
 
-  rescue:
-    - name: Set sysctl parameter net.ipv4.ip_unprivileged_port_start=80
-      ansible.builtin.lineinfile:
-        path: "/etc/sysctl.conf"
-        regexp: "^net.ipv4.ip_unprivileged_port_start=80"
-        line: "net.ipv4.ip_unprivileged_port_start=80"
-
-    - name: Reload sysctl
-      ansible.builtin.shell: "sysctl -p /etc/sysctl.conf"
-
-    - name: Confirm port 80 and above is allowed for unprivileged use
-      ansible.builtin.shell: "sysctl net.ipv4.ip_unprivileged_port_start |grep 80"
+- name: Reload sysctl
+  ansible.builtin.shell: "sysctl -p /etc/sysctl.d/50-UnprivilegedPorts.conf"
+  when: sysctl.changed

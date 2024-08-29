@@ -1,6 +1,6 @@
-quadlet_path: "../../docs/sample-environment/wordpress/quadlet"
+containers_quadlet_path: "../../docs/sample-environment/wordpress/quadlet"
 
-quadlets:
+containers_quadlets:
   - name: "wordpress-pod"
     file: "wordpress.pod"
 

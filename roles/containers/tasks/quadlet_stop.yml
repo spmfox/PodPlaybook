@@ -5,4 +5,4 @@
     scope: "user"
   loop_control:
     label: "{{ item.name}}.service"
-  loop: "{{ quadlets }}"
+  loop: "{{ containers_quadlets }}"

@@ -5,13 +5,13 @@
     scope: "user"
   loop_control:
     label: "{{ item.name}}.service"
-  loop: "{{ quadlets }}"
+  loop: "{{ containers_quadlets }}"
 
 - name: Check for quadlet not in active or activating state
   ansible.builtin.shell: "systemctl --user is-active {{ item.name }}.service"
   loop_control:
     label: "{{ item.name}}.service: {{ quadlet_status.stdout }}"
-  loop: "{{ quadlets }}"
+  loop: "{{ containers_quadlets }}"
   register: quadlet_status
   failed_when: quadlet_status.stdout not in ['active', 'activating']
 
@@ -20,7 +20,7 @@
   ansible.builtin.shell: "systemctl --user is-active {{ item.name }}.service"
   loop_control:
     label: "{{ item.name}}.service: {{ quadlet_status.stdout }}"
-  loop: "{{ quadlets }}"
+  loop: "{{ containers_quadlets }}"
   register: quadlet_status
   until: quadlet_status.stdout == 'active'
   delay: 2

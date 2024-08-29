@@ -4,7 +4,7 @@
     state: "absent"
   loop_control:
     label: "{{ item.name }} -> {{ item.file }}"
-  loop: "{{ quadlets }}"
+  loop: "{{ containers_quadlets }}"
   register: quadlet_files
 
 - name: Reload systemd daemon
