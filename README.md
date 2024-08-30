@@ -10,7 +10,7 @@ Quadlet files and some understanding of quadlet and/or systemd is required to us
 ## Usage
     ansible-playbook host.yml
     sudo machinectl shell containers@
-    ansible-playbook containers.yml
+    ansible-playbook -i docs/sample-environment/wordpress/wordpress.yml containers.yml
 
 ## Features
 - Designed for rootless Podman
@@ -18,18 +18,17 @@ Quadlet files and some understanding of quadlet and/or systemd is required to us
 - Define your application's quadlet files so they are treated as one entity with Ansible
 
 ## Sample Environment
-A fully working pod with Wordpress and a MariaDB database are in the `docs/sample-environment` directory.
-The default variables in the `container` role will use this sample environment for deployment.
-Provide your own inventory and/or variables to override this.
+A fully working pod with Wordpress and a MariaDB database are in the `docs/sample-environment/wordpress` directory.
+The environment variables are in `wordpress.yml`, you'll also find the containerfiles and the quadlet files.
 
 ## Requirements
 - Ansible
-- Ansible collections:
-    - ```ansible-galaxy install -r collections/requirements.yml```
 - Podman
 - User with `sudo` rights (to create unprivileged user)
 
 ## Operation
+- **Note:** `host.yml` and `containers.yml` will default to execute on localhost if a host isn't provided
+    - This means you can either create a full inventory with a host and variables or just variables that will be run against localhost
 - `host.yml` - installs the needed packages and creates the `containers` unprivileged user - use with a privileged account
 - `containers.yml` - will copy the quadlet files and start the quadlet - use with the unprivileged account
 
