@@ -8,8 +8,6 @@
 
 - ansible.builtin.import_tasks: systemd-user-network-check.yml
 
-- ansible.builtin.import_tasks: systemd-podman-auto-update.yml
-
 - ansible.builtin.import_tasks: unprivileged-port.yml
   tags:
     - never

@@ -1,5 +1,5 @@
 [Unit]
-Wants=check-network-online.service wordpress-app.service wordpress-db.service
+Wants=check-network-online.service podman-auto-update.timer wordpress-app.service wordpress-db.service
 Before=wordpress-app.service wordpress-db.service
 After=check-network-online.service
 

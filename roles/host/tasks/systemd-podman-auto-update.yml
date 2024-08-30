@@ -1,5 +1,0 @@
-- name: Enable podman-auto-update.timer for all users
-  ansible.builtin.systemd_service:
-    name: "podman-auto-update.timer"
-    enabled: true
-    scope: "global"

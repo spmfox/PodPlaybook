@@ -1,0 +1,15 @@
+[Unit]
+Wants=check-network-online.service podman-auto-update.timer
+After=check-network-online.service
+
+[Container]
+ContainerName=pihole-app
+Environment=WEBPASSWORD=
+Image=docker.io/pihole/pihole:latest
+#PublishPort=53:53/tcp
+#PublishPort=53:53/udp
+PublishPort=8081:80
+AutoUpdate=registry
+
+[Install]
+WantedBy=default.target
