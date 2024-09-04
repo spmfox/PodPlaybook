@@ -1,13 +1,14 @@
 all:
   vars:
-    containers_quadlet_path: "docs/sample-environment/wordpress/quadlet"
-
     containers_quadlets:
       - name: "wordpress-pod"
+        path: "docs/sample-environment/wordpress/quadlet"
         file: "wordpress.pod"
 
       - name: "wordpress-app"
+        path: "docs/sample-environment/wordpress/quadlet"
         file: "wordpress-app.container"
 
       - name: "wordpress-db"
+        path: "docs/sample-environment/wordpress/quadlet"
         file: "wordpress-db.container"

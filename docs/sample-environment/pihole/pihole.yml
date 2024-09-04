@@ -1,7 +1,6 @@
 all:
   vars:
-    containers_quadlet_path: "docs/sample-environment/pihole/quadlet"
-
     containers_quadlets:
       - name: "pihole-app"
+        path: "docs/sample-environment/pihole/quadlet"
         file: "pihole-app.container"

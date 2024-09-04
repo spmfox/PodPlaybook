@@ -5,7 +5,7 @@
 
 - name: Copy quadlet files into quadlet directory
   ansible.builtin.copy:
-    src: "{{ containers_quadlet_path}}/{{ item.file }}"
+    src: "{{ item.path }}/{{ item.file }}"
     dest: "{{ lookup('env', 'HOME') }}/.config/containers/systemd/{{ item.file }}"
   loop_control:
     label: "{{ item.name }} -> {{ item.file }}"
