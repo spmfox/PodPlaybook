@@ -12,9 +12,3 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
   when: systemd.changed
-
-- name: Enable check-network-online.service for all users
-  ansible.builtin.systemd_service:
-    name: "check-network-online.service"
-    enabled: true
-    scope: "global"
