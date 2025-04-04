@@ -1,6 +1,6 @@
 - name: Remove quadlet files from quadlet directory
   ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.config/containers/systemd/{{ item.file }}"
+    path: "{{ containers_homedir }}/.config/containers/systemd/{{ item.file }}"
     state: "absent"
   loop_control:
     label: "{{ item.name }} -> {{ item.file }}"

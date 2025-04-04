@@ -1,12 +1,13 @@
 - name: Create quadlet directory
   ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.config/containers/systemd"
+    path: "{{ containers_homedir }}/.config/containers/systemd"
     state: "directory"
 
 - name: Copy quadlet files into quadlet directory
   ansible.builtin.copy:
     src: "{{ item.path }}/{{ item.file }}"
-    dest: "{{ lookup('env', 'HOME') }}/.config/containers/systemd/{{ item.file }}"
+    dest: "{{ containers_homedir }}/.config/containers/systemd/{{ item.file }}"
+    remote_src: true
   loop_control:
     label: "{{ item.name }} -> {{ item.file }}"
   loop: "{{ containers_quadlets }}"
