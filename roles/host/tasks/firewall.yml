@@ -1,0 +1,17 @@
+- name: Modify firewall services
+  ansible.posix.firewalld:
+    service: "{{ item.service }}"
+    state: "{{ item.state }}"
+    permanent: true
+    immediate: true
+  loop: "{{ host_firewall.services }}"
+  when: host_firewall.services is defined
+
+- name: Modify firewall ports
+  ansible.posix.firewalld:
+    port: "{{ item.port }}"
+    state: "{{ item.state }}"
+    permanent: true
+    immediate: true
+  loop: "{{ host_firewall.ports }}"
+  when: host_firewall.ports is defined

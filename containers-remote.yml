@@ -1,0 +1,9 @@
+- hosts: all
+  become: true
+  become_method: "machinectl"
+  become_user: "{{ containers_user if containers_user is defined else 'containers' }}"
+  vars:
+    ansible_user: "root"
+  tasks:
+    - ansible.builtin.import_role:
+        name: "containers"

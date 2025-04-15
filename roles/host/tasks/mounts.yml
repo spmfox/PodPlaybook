@@ -1,0 +1,9 @@
+- name: Manage mounts
+  ansible.posix.mount:
+    path: "{{ item.path }}"
+    src: "{{ item.src }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.opts }}"
+    state: "{{ item.state }}"
+  loop: "{{ host_mounts }}"
+  when: host_mounts is defined

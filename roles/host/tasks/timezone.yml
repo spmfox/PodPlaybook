@@ -1,0 +1,3 @@
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ host_timezone }}"

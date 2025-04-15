@@ -7,21 +7,22 @@
     label: "{{ item.name}}.service"
   loop: "{{ containers_quadlets }}"
 
-- name: Check for quadlet not in active or activating state
+- name: Check for failed quadlet
   ansible.builtin.shell: "systemctl --user is-active {{ item.name }}.service"
   loop_control:
     label: "{{ item.name}}.service: {{ quadlet_status.stdout }}"
   loop: "{{ containers_quadlets }}"
   register: quadlet_status
-  failed_when: quadlet_status.stdout not in ['active', 'activating']
+  failed_when: quadlet_status.stdout == 'failed'
 
 
-- name: Wait for quadlet state to go active
+- name: Wait for quadlet state to be active or inactive
   ansible.builtin.shell: "systemctl --user is-active {{ item.name }}.service"
   loop_control:
     label: "{{ item.name}}.service: {{ quadlet_status.stdout }}"
   loop: "{{ containers_quadlets }}"
   register: quadlet_status
-  until: quadlet_status.stdout == 'active'
+  until: quadlet_status.stdout in ['active', 'inactive']
+  failed_when: quadlet_status.stdout not in ['active', 'inactive']
   delay: 2
   retries: 25

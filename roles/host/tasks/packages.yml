@@ -1,6 +1,13 @@
-- name: Install systemd-container and podman
+- name: Install systemd-container, podman
   ansible.builtin.package:
     name:
       - "systemd-container"
       - "podman"
     state: present
+
+- name: Manage additional packages
+  ansible.builtin.package:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  loop: "{{ host_packages }}"
+  when: host_packages is defined

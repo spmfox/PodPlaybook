@@ -6,5 +6,7 @@ host_shell_login_helper: |
   podman container list --all --sort status --format={{ '"{{.State}} {{.Status}} {{.Names}}"' }}
   echo ""
 
-host_containers_user: "containers"
-host_unprivileged_port_start: 80
+host_containers_user: "{{ containers_user if containers_user is defined else 'containers' }}"
+host_patching: false
+host_patching_apply: false
+host_patching_reboot: "never"

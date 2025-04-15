@@ -1,3 +1,12 @@
+- ansible.builtin.import_tasks: hostname.yml
+  when: host_hostname is defined
+
+- ansible.builtin.import_tasks: timezone.yml
+  when: host_timezone is defined
+
+- ansible.builtin.import_tasks: mounts.yml
+  when: host_mounts is defined
+
 - ansible.builtin.import_tasks: packages.yml
 
 - ansible.builtin.import_tasks: user.yml
@@ -8,10 +17,14 @@
 
 - ansible.builtin.import_tasks: systemd-user-network-check.yml
 
+- ansible.builtin.import_tasks: firewall.yml
+  when: host_firewall is defined
+
 - ansible.builtin.import_tasks: unprivileged-port.yml
-  tags:
-    - never
-    - unprivileged-port
+  when: host_unprivileged_port_start is defined
+
+- ansible.builtin.import_tasks: patching.yml
+  when: host_patching | bool
 
 - ansible.builtin.import_tasks: cpanel-dnsonly.yml
   tags:

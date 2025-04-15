@@ -1,0 +1,46 @@
+- name: Block for RHEL 9
+  block:
+    - name: Install dnf-automatic
+      ansible.builtin.package:
+        name: "dnf-automatic"
+        state: "present"
+
+    - name: Configure /etc/dnf/automatic.conf for reboot
+      ansible.builtin.lineinfile:
+        path: "/etc/dnf/automatic.conf"
+        search_string: "reboot = "
+        line: "reboot = {{ host_patching_reboot }}"
+
+    - name: Enable and start dnf-automatic-install.timer
+      ansible.builtin.systemd:
+        name: "dnf-automatic-install.timer"
+        enabled: true
+        state: "started"
+  when:
+    - ansible_distribution_file_variety == "RedHat"
+    - ansible_distribution_major_version == "9"
+
+- name: Block for Fedora 41 and higher
+  block:
+    - name: Install dnf5-plugin-automatic
+      ansible.builtin.package:
+        name: "dnf5-plugin-automatic"
+        state: "present"
+
+    - name: Configure /etc/dnf/automatic.conf for reboot
+      ansible.builtin.blockinfile:
+        path: "/etc/dnf/automatic.conf"
+        create: true
+        block: |
+          [commands]
+          apply_updates = yes
+          reboot = {{ host_patching_reboot }}
+
+    - name: Enable and start dnf5-automatic.timer
+      ansible.builtin.systemd:
+        name: "dnf5-automatic.timer"
+        enabled: true
+        state: "started"
+  when:
+    - ansible_distribution == "Fedora"
+    - ansible_distribution_major_version |int >= 41
