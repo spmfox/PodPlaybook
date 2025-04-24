@@ -4,8 +4,5 @@
     regexp: "^net.ipv4.ip_unprivileged_port_start="
     line: "net.ipv4.ip_unprivileged_port_start={{ host_unprivileged_port_start }}"
     create: true
-  register: sysctl
-
-- name: Reload sysctl
-  ansible.builtin.shell: "sysctl -p /etc/sysctl.d/50-UnprivilegedPort.conf"
-  when: sysctl.changed
+  notify:
+    - Reload sysctl

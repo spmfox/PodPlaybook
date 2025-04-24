@@ -1,0 +1,11 @@
+- name: Restart sshd
+  ansible.builtin.service:
+    name: "sshd"
+    state: "restarted"
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Reload sysctl
+  ansible.builtin.shell: "sysctl -p /etc/sysctl.d/50-UnprivilegedPort.conf"

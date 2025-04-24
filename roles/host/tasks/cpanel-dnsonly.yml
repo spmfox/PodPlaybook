@@ -9,7 +9,7 @@
 - name: Turn off firewalld
   ansible.builtin.service:
     name: "firewalld"
-    state: stopped
+    state: "stopped"
     enabled: false
 
 - name: Create new tmp directory for podman

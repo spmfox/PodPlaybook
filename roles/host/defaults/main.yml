@@ -10,3 +10,7 @@ host_containers_user: "{{ containers_user if containers_user is defined else 'co
 host_patching: false
 host_patching_apply: false
 host_patching_reboot: "never"
+
+host_ssh_harden: false
+
+host_cpanel_installed: false
