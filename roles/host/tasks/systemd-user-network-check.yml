@@ -6,4 +6,9 @@
   ansible.builtin.copy:
     src: "check-network-online.service"
     dest: "/etc/systemd/user/check-network-online.service"
-  notify: Reload systemd daemon
+  register: systemd
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  when: systemd.changed

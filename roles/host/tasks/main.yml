@@ -9,25 +9,25 @@
 
 - ansible.builtin.import_tasks: packages.yml
 
+- ansible.builtin.import_tasks: unprivileged-port.yml
+  when: host_unprivileged_port_start is defined
+
+- ansible.builtin.import_tasks: systemd-user-network-check.yml
+
 - ansible.builtin.import_tasks: user.yml
 
 - ansible.builtin.import_tasks: linger.yml
 
 - ansible.builtin.import_tasks: shell-helper.yml
 
-- ansible.builtin.import_tasks: systemd-user-network-check.yml
-
-- ansible.builtin.import_tasks: firewall.yml
-  when: host_firewall is defined
-
-- ansible.builtin.import_tasks: unprivileged-port.yml
-  when: host_unprivileged_port_start is defined
-
 - ansible.builtin.import_tasks: patching.yml
   when: host_patching | bool
 
 - ansible.builtin.import_tasks: ssh-harden.yml
   when: host_ssh_harden | bool
+
+- ansible.builtin.import_tasks: firewall.yml
+  when: host_firewall is defined
 
 - ansible.builtin.import_tasks: cpanel-dnsonly.yml
   when: host_cpanel_installed | bool
