@@ -1,4 +1,4 @@
-- name: Block for RHEL 9
+- name: Block for dnf
   block:
     - name: Install dnf-automatic
       ansible.builtin.package:
@@ -17,10 +17,9 @@
         enabled: true
         state: "started"
   when:
-    - ansible_distribution_file_variety == "RedHat"
-    - ansible_distribution_major_version == "9"
+    - ansible_pkg_mgr == "dnf"
 
-- name: Block for Fedora 41 and higher
+- name: Block for dnf5
   block:
     - name: Install dnf5-plugin-automatic
       ansible.builtin.package:
@@ -42,5 +41,4 @@
         enabled: true
         state: "started"
   when:
-    - ansible_distribution == "Fedora"
-    - ansible_distribution_major_version |int >= 41
+     - ansible_pkg_mgr == "dnf5"
