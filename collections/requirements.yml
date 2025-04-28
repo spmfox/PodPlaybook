@@ -1,4 +1,4 @@
 # ansible-galaxy install -r requirements.yml
 collections:
-  - community.general
-  - ansible.posix
+  - name: community.general
+  - name: ansible.posix
