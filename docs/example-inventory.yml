@@ -1,0 +1,68 @@
+all:
+  hosts:
+    HOSTNAME:
+      host_patching: true
+      host_patching_reboot: "when-needed"
+
+      host_hostname: "containers-testing"
+
+      host_ssh_harden: true
+
+      host_timezone: "America/New_York"
+
+      host_firewall:
+        services:
+          - service: "http"
+            state: "enabled"
+
+          - service: "https"
+            state: "enabled"
+
+      host_packages:
+        - name: "git"
+          state: "present"
+
+        - name: "fish"
+          state: "present"
+
+        - name: "restic"
+          state: "present"
+
+      host_containers_user_shell: "/usr/bin/fish"
+
+      host_unprivileged_port_start: "80"
+
+      host_mounts:
+        - path: "/home/containers"
+          src: "/dev/disk/by-id/scsi-0Linode_Volume_containers-test"
+          fstype: "ext4"
+          opts: "defaults,noatime,nofail"
+          state: "mounted"
+
+      quadlet_proxy_root: "/home/containers/proxy/quadlet"
+      quadlet_wiki_root: "/home/containers/wiki/quadlet"
+
+      containers_quadlets:
+        - name: "proxy-app-build"
+          path: "{{ quadlet_proxy_root }}"
+          file: "proxy-app.build"
+
+        - name: "proxy-app"
+          path: "{{ quadlet_proxy_root }}"
+          file: "proxy-app.container"
+
+        - name: "wiki-pod"
+          path: "{{ quadlet_wiki_root }}"
+          file: "wiki.pod"
+
+        - name: "wiki-db"
+          path: "{{ quadlet_wiki_root }}"
+          file: "wiki-db.container"
+
+        - name: "wiki-app-build"
+          path: "{{ quadlet_wiki_root }}"
+          file: "wiki-app.build"
+
+        - name: "wiki-app"
+          path: "{{ quadlet_wiki_root }}"
+          file: "wiki-app.container"

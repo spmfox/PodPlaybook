@@ -1,13 +1,18 @@
 - hosts: localhost
   gather_facts: false
+  vars:
+
   tasks:
-    - name: Add localhost to all group if no hosts are defined
-      ansible.builtin.add_host:
-        name: "localhost"
-        ansible_connection: "local"
+    - name: Block for localhost run
+      block:
+        - ansible.builtin.pause:
+            prompt: "Warning - no hosts were given, this will run on localhost - hit enter to continue or ctrl-c to cancel"
+
+        - name: Add localhost to all group if no hosts are defined
+          ansible.builtin.add_host:
+            name: "localhost"
+            ansible_connection: "local"
       when: groups['all'] | length == 0
-      tags:
-        - always
 
 
 - hosts: all
