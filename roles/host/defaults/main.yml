@@ -6,6 +6,17 @@ host_shell_login_helper: |
   podman container list --all --sort status --format={{ '"{{.State}} {{.Status}} {{.Names}}"' }}
   echo ""
 
+host_shell_login_helper_bash: |
+  if [[ $- == *i* ]]
+  then
+    {{ host_shell_login_helper | indent(4) | trim }}
+  fi
+
+host_shell_login_helper_fish: |
+  if status is-interactive
+    {{ host_shell_login_helper | indent(4) | trim }}
+  end
+
 host_containers_user: "{{ containers_user if containers_user is defined else 'containers' }}"
 host_patching: false
 host_patching_apply: false
