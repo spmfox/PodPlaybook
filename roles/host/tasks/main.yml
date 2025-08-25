@@ -29,5 +29,8 @@
 - ansible.builtin.import_tasks: firewall.yml
   when: host_firewall is defined
 
+- ansible.builtin.import_tasks: selinux.yml
+  when: host_selinux is defined
+
 - ansible.builtin.import_tasks: cpanel-dnsonly.yml
   when: host_cpanel_installed | bool

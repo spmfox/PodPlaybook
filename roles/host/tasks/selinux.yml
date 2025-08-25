@@ -1,0 +1,8 @@
+---
+- name: Set seboolean
+  ansible.posix.seboolean:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    persistent: true
+  loop: "{{ host_selinux.booleans }}"
+  when: host_selinux.booleans is defined
