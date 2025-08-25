@@ -4,10 +4,10 @@
 - ansible.builtin.import_tasks: timezone.yml
   when: host_timezone is defined
 
+- ansible.builtin.import_tasks: packages.yml
+
 - ansible.builtin.import_tasks: mounts.yml
   when: host_mounts is defined
-
-- ansible.builtin.import_tasks: packages.yml
 
 - ansible.builtin.import_tasks: unprivileged-port.yml
   when: host_unprivileged_port_start is defined

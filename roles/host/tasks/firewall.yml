@@ -15,3 +15,12 @@
     immediate: true
   loop: "{{ host_firewall.ports }}"
   when: host_firewall.ports is defined
+
+- name: Modify rich rules
+  ansible.posix.firewalld:
+    rich_rule: "{{ item.rule }}"
+    state: "{{ item.state }}"
+    permanent: true
+    immediate: true
+  loop: "{{ host_firewall.rich_rules }}"
+  when: host_firewall.rich_rules is defined
