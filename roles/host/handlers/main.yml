@@ -2,3 +2,6 @@
   ansible.builtin.service:
     name: "sshd"
     state: "restarted"
+
+- name: Reload udev rules
+  ansible.builtin.shell: "udevadm control --reload-rules && udevadm trigger"

@@ -32,5 +32,8 @@
 - ansible.builtin.import_tasks: selinux.yml
   when: host_selinux is defined
 
+- ansible.builtin.import_tasks: udev-rules.yml
+  when: host_udev_rules is defined
+
 - ansible.builtin.import_tasks: cpanel-dnsonly.yml
   when: host_cpanel_installed | bool

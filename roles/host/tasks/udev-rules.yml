@@ -1,0 +1,9 @@
+- name: Create udev rules
+  ansible.builtin.lineinfile:
+    path: "/etc/udev/rules.d/90-containers.rules"
+    create: true
+    line: "{{ item.rule }}"
+    regexp: "{{ item.regexp }}"
+    state: "{{ item.state }}"
+  loop: "{{ host_udev_rules }}"
+  notify: Reload udev rules
