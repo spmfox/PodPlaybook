@@ -2,7 +2,15 @@
   tags:
     - create
 
+- ansible.builtin.import_tasks: systemd_create.yml
+  tags:
+    - create
+
 - ansible.builtin.import_tasks: quadlet_start.yml
+  tags:
+    - start
+
+- ansible.builtin.import_tasks: systemd_start.yml
   tags:
     - start
 
@@ -11,7 +19,17 @@
     - never
     - stop
 
+- ansible.builtin.import_tasks: systemd_stop.yml
+  tags:
+    - never
+    - stop
+
 - ansible.builtin.import_tasks: quadlet_remove.yml
+  tags:
+    - never
+    - remove
+
+- ansible.builtin.import_tasks: systemd_remove.yml
   tags:
     - never
     - remove

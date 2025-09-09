@@ -1,0 +1,21 @@
+- name: Create systemd directory
+  ansible.builtin.file:
+    path: "{{ containers_homedir }}/.config/systemd/user"
+    state: "directory"
+
+- name: Copy systemd files into systemd directory
+  ansible.builtin.copy:
+    src: "{{ item.path }}/{{ item.file }}"
+    dest: "{{ containers_homedir }}/.config/systemd/user/{{ item.file }}"
+    remote_src: true
+    validate: "systemd-analyze verify %s"
+  loop_control:
+    label: "{{ item.name }} -> {{ item.file }}"
+  loop: "{{ containers_systemd }}"
+  register: systemd_files
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: "user"
+  when: systemd_files.changed

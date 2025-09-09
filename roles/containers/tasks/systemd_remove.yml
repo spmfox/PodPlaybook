@@ -1,0 +1,14 @@
+- name: Remove systemd files from systemd directory
+  ansible.builtin.file:
+    path: "{{ containers_homedir }}/.config/systemd/user/{{ item.file }}"
+    state: "absent"
+  loop_control:
+    label: "{{ item.name }} -> {{ item.file }}"
+  loop: "{{ containers_systemd }}"
+  register: systemd_files
+
+- name: Reload systemd daemon
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: "user"
+  when: systemd_files.changed
