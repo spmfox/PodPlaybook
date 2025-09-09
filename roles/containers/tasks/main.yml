@@ -3,6 +3,7 @@
     - create
 
 - ansible.builtin.import_tasks: systemd_create.yml
+  when: containers_systemd is defined
   tags:
     - create
 
@@ -11,6 +12,7 @@
     - start
 
 - ansible.builtin.import_tasks: systemd_start.yml
+  when: containers_systemd is defined
   tags:
     - start
 
@@ -20,6 +22,7 @@
     - stop
 
 - ansible.builtin.import_tasks: systemd_stop.yml
+  when: containers_systemd is defined
   tags:
     - never
     - stop
@@ -30,6 +33,7 @@
     - remove
 
 - ansible.builtin.import_tasks: systemd_remove.yml
+  when: containers_systemd is defined
   tags:
     - never
     - remove
