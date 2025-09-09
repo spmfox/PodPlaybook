@@ -21,3 +21,12 @@
 
 - name: Check quadlet status
   ansible.builtin.shell: "/usr/lib/systemd/system-generators/podman-system-generator --user --dryrun"
+  changed_when: false
+  ignore_errors: true
+  no_log: true
+  register: dryrun_check
+
+- name: Fail intentionally if quadlet check failed
+  ansible.builtin.fail:
+    msg: Quadlet check failed, run /usr/lib/systemd/system-generators/podman-system-generator --user --dryrun
+  when: dryrun_check.failed

@@ -14,7 +14,7 @@
   loop: "{{ containers_quadlets }}"
   register: quadlet_status
   failed_when: quadlet_status.stdout == 'failed'
-
+  changed_when: false
 
 - name: Wait for quadlet state to be active or inactive
   ansible.builtin.shell: "systemctl --user is-active {{ item.name }}.service"
@@ -24,5 +24,6 @@
   register: quadlet_status
   until: quadlet_status.stdout in ['active', 'inactive']
   failed_when: quadlet_status.stdout not in ['active', 'inactive']
+  changed_when: false
   delay: 2
   retries: 25
