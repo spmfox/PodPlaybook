@@ -2,6 +2,7 @@
   ansible.builtin.systemd_service:
     name: "{{ item.name }}"
     state: "stopped"
+    enabled: false
     scope: "user"
   loop_control:
     label: "{{ item.name}}"

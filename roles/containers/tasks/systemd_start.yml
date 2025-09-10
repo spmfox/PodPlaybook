@@ -1,7 +1,8 @@
-- name: Start systemd service
+- name: Start and enable systemd service
   ansible.builtin.systemd_service:
     name: "{{ item.name }}"
     state: "started"
+    enabled: true
     scope: "user"
   loop_control:
     label: "{{ item.name}}"
