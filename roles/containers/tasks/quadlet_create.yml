@@ -3,8 +3,8 @@
     path: "{{ containers_homedir }}/.config/containers/systemd"
     state: "directory"
 
-- name: Copy quadlet files into quadlet directory
-  ansible.builtin.copy:
+- name: Copy (template) quadlet files into quadlet directory
+  ansible.builtin.template:
     src: "{{ item.path }}/{{ item.file }}"
     dest: "{{ containers_homedir }}/.config/containers/systemd/{{ item.file }}"
     remote_src: true
