@@ -3,8 +3,8 @@
     path: "{{ containers_homedir }}/.config/systemd/user"
     state: "directory"
 
-- name: Copy (template) systemd files into systemd directory
-  ansible.builtin.template:
+- name: Copy systemd files into systemd directory
+  ansible.builtin.copy:
     src: "{{ item.path }}/{{ item.file }}"
     dest: "{{ containers_homedir }}/.config/systemd/user/{{ item.file }}"
     remote_src: true
