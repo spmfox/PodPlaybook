@@ -2,8 +2,6 @@
 
 Ansible playbook for deploying and managing Podman containers.
 
-![PodPlaybook](docs/images/logo.png)
-
 This repo contains two roles, `host` and `containers`, that automate the deployment of Podman containers using quadlet.
 Quadlet files and some understanding of quadlet and/or systemd is required to use this tool.
 
