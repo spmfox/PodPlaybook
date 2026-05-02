@@ -1,6 +1,5 @@
 [Unit]
-Wants=check-network-online.service podman-auto-update.timer
-After=check-network-online.service
+Wants=podman-auto-update.timer
 
 [Container]
 ContainerName=pihole-app

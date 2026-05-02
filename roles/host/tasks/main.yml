@@ -12,8 +12,6 @@
 - ansible.builtin.import_tasks: unprivileged-port.yml
   when: host_unprivileged_port_start is defined
 
-- ansible.builtin.import_tasks: systemd-user-network-check.yml
-
 - ansible.builtin.import_tasks: user.yml
 
 - ansible.builtin.import_tasks: linger.yml
